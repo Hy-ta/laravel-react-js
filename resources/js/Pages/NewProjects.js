@@ -9,43 +9,46 @@ class NewProject extends Component {
             description: '',
             errors: []
         }
-        this.handleFieldChange = this.handleFieldChange.bind(this)
-        this.handleCreateNewProject = this.handleCreateNewProject.bind(this)
+        this.onChangeValue = this.onChangeValue.bind(this)
+        this.onSubmitButton = this.onSubmitButton.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
-    handleFieldChange(e) {
+    onChangeValue(e) {
         this.setState({
             [e.target.name]: e.target.value
-        })
+        });
     }
 
-    handleCreateNewProject(e) {
-        e.preventDefault()
-
-        const { history } = this.props
+    onSubmitButton(e) {
+        const { history } = this.props;
 
         const project = {
-            name: this.state.name,
-            description: this.state.description
-        }
-
-        axios.post('/api/projects', project)
-        .then(response => {
-            //redirect to the homepage
-        history.push('/')
+            name: name,
+            description: description
+        };
+    
+        axios.post(`api/project/store`, project).then(response => {
+                    console.log(response.data);
+                    setConfirm(true);
+                    history.push('/');
         })
         .catch(error => {
-            this.setState({
-                errors: error.response.data.errors
-            })
-        })
-    }
+            console.log(error);
+            setConfirm(true);
+        });
+        
+    };
+
+    componentDidMount(){
+
+    };
+   
 
     hasErrorFor(field) {
-        return !!this.state.errors[field]
-    }
+        return !!this.state.errors[field];
+    };
 
     renderErrorFor(field) {
         if(this.hasErrorFor(field)) {
@@ -54,8 +57,8 @@ class NewProject extends Component {
                     <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
-        }
-    }
+        };
+    };
 
     render (){
         return (
@@ -65,7 +68,7 @@ class NewProject extends Component {
                         <div className='card'>
                             <div className='card-header'>Create New Project</div>
                             <div className='card-body'>
-                                <form onSubmit={this.handleCreateNewProject}>
+                                <form onSubmit={this.onSubmitButton}>
                                     <div className='form-group'>
                                         <label htmlFor='name'>Project Name</label>
                                         <input
@@ -74,7 +77,7 @@ class NewProject extends Component {
                                             className={`form-control ${this.hasErrorFor('name') ? 'is-invalid' : ''}`}
                                             name='name'
                                             value={this.state.name}
-                                            onChange={this.handleFieldChange}
+                                            onChange={this.onChangeValue}
                                         />
                                         {this.renderErrorFor('name')}    
                                     </div>
@@ -86,11 +89,15 @@ class NewProject extends Component {
                                             name='description'
                                             rows='10'
                                             value={this.state.description}
-                                            onChange={this.handleFieldChange}
+                                            onChange={this.onChangeValue}
                                         />
                                         {this.renderErrorFor('description')}
                                     </div>
-                                    <button className='btn btn-primary'>Create</button>
+                                    <button 
+                                        className='btn btn-primary'
+                                        type='submit'
+                                    >
+                                        Create</button>
                                 </form>
                             </div>
                         </div>
@@ -101,4 +108,4 @@ class NewProject extends Component {
     }
 }
 
-export default NewProject
+export default NewProject;

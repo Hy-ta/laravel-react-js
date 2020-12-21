@@ -5,8 +5,8 @@ import Header from './Header';
 import Navbar from './Navbar';
 // import About from './About';
 import ProjectsList from './ProjectsList';
-import NewProjects from './NewProjects';
-import SingleProject from './SingleProject';
+import NewProjects from '../Pages/NewProjects';
+// import SingleProject from '../Pages/SingleProject';
 
 
 class App extends Component {
@@ -16,13 +16,11 @@ class App extends Component {
         <div>
           <Header />
           <Navbar />
-          <Switch>
-            <Route exact path='/' component={ProjectsList} />
-            <Route path='/create' component={NewProjects} />
-            <Route path='/:id' component={SingleProject} /> 
-          </Switch>
-         
-          {/* <About /> */}
+            <Switch>
+              <Route exact path='/' component={ProjectsList} />
+              <Route path='/new_project' component={NewProjects} />
+              {/* <Route path='/:id' component={SingleProject} />  */}
+            </Switch>
         </div>
       </Router>
     )

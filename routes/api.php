@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,27 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('projects', 'ProjectController@index');
-Route::post('projects', 'ProjectController@store');
-Route::get('projects/{id}', 'ProjectController@show');
-Route::post('projects/{project}', 'ProjectController@markAsCompleted');
-Route::post('tasks', 'TaskController@store');
-Route::post('tasks/{task}', 'TaskController@markAsCompleted');
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'project',
+    'namespace' => 'Project',
+], function($router) {
+    Route::get('idnex', [ProjectController::class, 'index']);
+    Route::post('store', [ProjectController::class, 'store']);
+    Route::get('showAll', [ProjectController::class, 'showAll']);
+    // Route::put('/{id}', 'ProjectController@markAsCompleted'); 
+});
+
+// Route::group([
+//     // 'middleware' => 'api',
+//     'prefix' => 'task',
+//     'namespace' => 'Task',
+// ], function($router) {
+//     Route::post('store', 'TaskController@store');
+//     Route::put('markAsCompleted', 'TaskController@markAsCompleted');    
+// });
+
 
 
     // Route::middleware('auth:api')->get('/user', function (Request $request) {

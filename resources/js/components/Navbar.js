@@ -42,7 +42,7 @@ const Navbar = () => {
             <NavLink
               className="navbar-item mx-2"
               activeClassName="is-active"
-              to="/create"
+              to="project/create"
             >
               New Project
             </NavLink>
@@ -50,7 +50,7 @@ const Navbar = () => {
             <NavLink
               className="navbar-item mx-2"
               activeClassName="is-active"
-              to="/project"
+              to="/new_project"
             >
               Project
             </NavLink>

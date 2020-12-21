@@ -17,10 +17,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-    Route::view('/{path?}', 'app');
+Route::get('/{any}', function(){
+    return view('App');
+})->where('any', '.*');
 
-    // Route::get('/', function () {
-    //     // 3件だけデータを取得
-    //     $users = App\User::limit(3)->get()->toArray();
-    //     dd($users);
-    // });

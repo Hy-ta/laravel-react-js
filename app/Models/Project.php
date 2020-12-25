@@ -15,7 +15,12 @@ class Project extends Model
         'is_completed',
     ];
 
-    const CREATED_AT = 'RESIT_DATE';
-    const UPDATED_AT = 'UPDATE_DATE'; 
+    // const CREATED_AT = 'RESIT_DATE';
+    // const UPDATED_AT = 'UPDATE_DATE'; 
+
+    public function tasks()
+    {
+      return $this->hasMany(Task::class);
+    }
 }
 

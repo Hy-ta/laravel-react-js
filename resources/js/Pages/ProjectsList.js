@@ -12,28 +12,37 @@ class ProjectsList extends Component {
   };
 
   componentDidMount () {
-    axios.get(`/api/project/show`).then(response => {
+    axios.get(`/api/project/index`).then(response => {
+      const countProjects = response.data.slice(0, 4);
+      const updatedProjects = countProjects.map(project => {
+        return {
+            ...project
+        };
+      })
       this.setState({
-        projects: response.data
+        projects: updatedProjects
       });
+      // console.log(response)
     });
   };
 
   render () {
-    let { projects } = this.state.projects;
-
-    projects = projects.map(project => {
-      return <li>{project.id}</li>;
-      // <Link
-      //   className='list-group-item list-group-item-action d-flex justify-content-between align-items-center'
-      //   to={`/${project.id}`}
-      //   key={project.id}
-      // >
-      //   {project.name}
-      //   <span className='badge badge-primary badge-pill'>
-      //       {project.tasks_count}
-      //   </span>
-      // </Link>
+    const projects = this.state.projects.map(project => {
+      
+      console.log(this.state.projects); 
+      // console.log(this.props);
+      return (
+        <Link
+          className='list-group-item list-group-item-action d-flex justify-content-between align-items-center'
+          to={`/${project.id}`}
+          key={project.id}
+        >
+          {project.name}
+          <span className='badge badge-primary badge-pill'>
+              {project.tasks_count}
+          </span>
+        </Link>
+      )
     });
 
     return (
@@ -44,7 +53,7 @@ class ProjectsList extends Component {
               <div className='card-header'>All projects</div>
 
               <div className='card-body'>
-                <Link className='btn btn-primary btn-sm mb-3' to='/create'>
+                <Link className='btn btn-primary btn-sm mb-3' to='/new_project'>
                   Create a new project
                 </Link>
 

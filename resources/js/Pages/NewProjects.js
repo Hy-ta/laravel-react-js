@@ -7,6 +7,7 @@ class NewProject extends Component {
         this.state = {
             name: '',
             description: '',
+            confirm: false,
             errors: []
         }
         this.onChangeValue = this.onChangeValue.bind(this)
@@ -22,28 +23,32 @@ class NewProject extends Component {
     }
 
     onSubmitButton(e) {
+        e.preventDefault();
+
         const { history } = this.props;
 
         const project = {
-            name: name,
-            description: description
+            name: this.state.name,
+            description: this.state.description
         };
     
-        axios.post(`api/project/store`, project).then(response => {
-                    console.log(response.data);
-                    setConfirm(true);
+        axios.post(`api/project/store`, project)
+              .then(response => {
+                    console.log(response);
+                    this.setState({ confirm: true});
                     history.push('/');
         })
         .catch(error => {
             console.log(error);
-            setConfirm(true);
+            this.setState({ errors: error.message });
+            this.setState({ confirm: false});
         });
         
     };
 
-    componentDidMount(){
+    // componentDidMount(){
 
-    };
+    // };
    
 
     hasErrorFor(field) {
@@ -67,10 +72,18 @@ class NewProject extends Component {
                     <div className='col-md-6'>
                         <div className='card'>
                             <div className='card-header'>Create New Project</div>
-                            <div className='card-body'>
+                              <div className='card-body'>
+
                                 <form onSubmit={this.onSubmitButton}>
                                     <div className='form-group'>
                                         <label htmlFor='name'>Project Name</label>
+                                        {/* error message */}
+                                        
+                                        { this.state.errors &&
+                                         <h3 className="error"> { this.state.errors.message } </h3> 
+                                         }
+
+                                         {/* //////////// */}
                                         <input
                                             id='name'
                                             type='text'
@@ -99,6 +112,7 @@ class NewProject extends Component {
                                     >
                                         Create</button>
                                 </form>
+                                
                             </div>
                         </div>
                     </div>

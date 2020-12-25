@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class SingleProject extends Component {
     constructor (props) {
@@ -8,34 +8,43 @@ class SingleProject extends Component {
       this.state = {
         project: {},
         tasks: [],
-        title: '',
-        errors: []
+        title: "",
+        errors: [],
+
       }
   
       this.handleFieldChange = this.handleFieldChange.bind(this)
       this.handleAddNewTask = this.handleAddNewTask.bind(this)
       this.hasErrorFor = this.hasErrorFor.bind(this)
       this.renderErrorFor = this.renderErrorFor.bind(this)
-      this.handleMarkProjectAsCompleted = this.handleMarkProjectAsCompleted.bind(
-        this
-      )
+      this.handleMarkProjectAsCompleted = this.handleMarkProjectAsCompleted.bind(this)
     }
   
     componentDidMount () {
       const projectId = this.props.match.params.id
-  
-      axios.get(`/api/project/${projectId}`).then(response => {
-        this.setState({
-          project: response.data,
-          tasks: response.data.tasks
+      if(projectId){
+        axios.get(`/api/project/${projectId}`).then(response => {
+          this.setState({
+            project: response.data,
+            tasks: response.data.tasks
+          })
         })
-      })
+      }
     }
   
     handleFieldChange (event) {
       this.setState({
         title: event.target.value
       })
+    }
+  
+    handleMarkProjectAsCompleted () {
+      const { history } = this.props
+  
+      axios.put(`/api/project/${this.state.project.id}`)
+        .then( 
+          history.push('/')
+        );
     }
   
     handleAddNewTask (event) {
@@ -45,16 +54,17 @@ class SingleProject extends Component {
         title: this.state.title,
         project_id: this.state.project.id
       }
+      // console.log(this.state.title);
   
-      axios
-        .post(`/api/tasks`, task)
+      axios.post(`/api/task/store`, task)
         .then(response => {
           // clear form input
           this.setState({
-            title: ''
+            title: ""
           })
+          console.log(response.data)
   
-          // add new task to list of tasks
+          // add a new task to list of tasks
           this.setState(prevState => ({
             tasks: prevState.tasks.concat(response.data)
           }))
@@ -80,33 +90,20 @@ class SingleProject extends Component {
       }
     }
   
-    handleMarkProjectAsCompleted () {
-      const { history } = this.props
-  
-      axios
-        .put(`/api/projects/${this.state.project.id}`)
-        .then(response => history.push('/'))
-    }
-  
-    handleMarkTaskAsCompleted (taskId) {
-      axios.put(`/api/tasks/${taskId}`).then(response => {
-        this.setState(prevState => ({
-          tasks: prevState.tasks.filter(task => {
-            return task.id !== taskId
-          })
-        }))
-      })
-    }
-  
     render () {
-      const { project, tasks } = this.state
-  
+
+      const { tasks, project } = this.state;
+
+      // let loading = <p>Loading ... </p>
+     
       return (
+        
         <div className='container py-4'>
           <div className='row justify-content-center'>
             <div className='col-md-8'>
               <div className='card'>
-                <div className='card-header'>{project.name}</div>
+                
+                <div className='card-header'>{project.id}</div>
   
                 <div className='card-body'>
                   <p>{project.description}</p>
@@ -149,7 +146,7 @@ class SingleProject extends Component {
   
                         <button
                           className='btn btn-primary btn-sm'
-                          onClick={this.handleMarkTaskAsCompleted.bind(
+                          onClick={this.handleMarkProjectAsCompleted.bind(
                             this,
                             task.id
                           )}
@@ -169,4 +166,4 @@ class SingleProject extends Component {
     }
   }
   
-  export default SingleProject
+  export default SingleProject;

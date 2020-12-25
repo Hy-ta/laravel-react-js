@@ -36,15 +36,7 @@ const Navbar = () => {
               activeClassName="is-active" 
               to="/"
             >
-              Home
-            </NavLink>
-
-            <NavLink
-              className="navbar-item mx-2"
-              activeClassName="is-active"
-              to="project/create"
-            >
-              New Project
+              Projects List
             </NavLink>
 
             <NavLink
@@ -52,15 +44,15 @@ const Navbar = () => {
               activeClassName="is-active"
               to="/new_project"
             >
-              Project
+              New Project
             </NavLink>
 
             <NavLink
               className="navbar-item mx-2"
               activeClassName="is-active"
-              to="/task"
+              to="/archived_lists"
             >
-              Task
+              Archived Lists
             </NavLink>
           </div>
 

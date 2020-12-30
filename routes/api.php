@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,17 @@ Route::group([
     Route::get('fetchProjects', [ProjectController::class, 'fetchProjects']);
     Route::get('{id}', [ProjectController::class, 'show']);
     Route::put('{project}', [ProjectController::class, 'markAsCompleted']);
+});
+
+// User authentication
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user',
+    'namespace' => 'User',
+], function($router) {
+    Route::post('userSignUp', [UserController::class, 'userSignUp']);
+    Route::post('userLogin', [UserController::class, 'userLogin']);
+    Route::get('userDetails', [UserController::class, 'userDetails']);
 });
 
 Route::group([

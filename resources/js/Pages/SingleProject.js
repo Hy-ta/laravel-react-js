@@ -43,7 +43,7 @@ class SingleProject extends Component {
   
       axios.put(`/api/project/${this.state.project.id}`)
         .then( 
-          history.push('/')
+          history.push('/projectLists')
         );
     }
   
@@ -103,7 +103,7 @@ class SingleProject extends Component {
             <div className='col-md-8'>
               <div className='card'>
                 
-                <div className='card-header'>{project.id}</div>
+                <div className='card-header'>{project.name}</div>
   
                 <div className='card-body'>
                   <p>{project.description}</p>

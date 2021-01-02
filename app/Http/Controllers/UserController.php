@@ -30,17 +30,18 @@ class UserController extends Controller
 
         $name = $request->name;
         $name = explode(" ", $name); // maybe double quotes '' -> "" ???
-        $first_name = $name[0];
-        $last_name = ""; 
+        // $first_name = $name[0];
+        // $last_name = ""; 
 
-        if(isset($name[1])){
-            $last_name = $name[1];
-        }
+        // if(isset($name[1])){
+        //     $last_name = $name[1];
+        // }
 
         $userDataArray = array(
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'full_name' => $request->name,
+            // 'first_name' => $first_name,
+            // 'last_name' => $last_name,
+            // 'full_name' => $request->name,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => md5($request->password),
             'phone' => $request->phone,
@@ -88,7 +89,7 @@ class UserController extends Controller
             
             $email_status = User::where('email', $request->email)->first();
 
-            // check email
+            // check email && password
                 if(!is_null($email_status)){
                   $password_status = User::where('email', $request->email)->where('password', md5($request->password))->first();
                  
@@ -111,4 +112,10 @@ class UserController extends Controller
                 return $user;   
             }
         }
+
+//         public function userLogout(Request $request)
+//         {
+//             request()->session()->regenerate(true);
+//             request()->session()->flush();
+//         }
 }

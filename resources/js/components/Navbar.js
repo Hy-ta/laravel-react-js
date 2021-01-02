@@ -1,12 +1,33 @@
-// components/Navbar.js
-
+import axios from "axios";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+import { Button } from 'reactstrap';
 
 const Navbar = () => {
     const [isOpen, setOpen] = useState(false);
-    const login = localStorage.getItem("IsLoggedIn");
+    const login = localStorage.getItem("isLoggedIn");
+    const history = useHistory();
+    
     console.log(localStorage);
+    console.log(history)
+    // const userLogout = () => {
+    //   axios.get(`/api/user/userLogout`)
+    //         .then({
+    //           render(){
+    //             conosle.log('session has gone');
+    //             return(
+    //               <Redirect to="/"/>
+    //           )
+    //         }       
+    //         });
+    // }
+
+    async function userLogout(){
+      // localStorage.clear("isLoggedIn");
+      
+      window.localStorage.clear();
+      history.push("/sign_in");
+    };
 
     return(
         <nav
@@ -34,24 +55,11 @@ const Navbar = () => {
 
           { login ? (  
             <div className="navbar-start"> 
-              <NavLink
-                  className="navbar-item mx-2"
-                  activeClassName="is-active"
-                  to="/"
-                >
-                  Sign Up
-                </NavLink> 
-               <NavLink  
-                  className="navbar-item mx-2" 
-                  activeClassName="is-active" 
-                  to="/sign_in"
-                >
-                  Sign In
-                </NavLink>
+                
               <NavLink  
                 className="navbar-item mx-2" 
                 activeClassName="is-active" 
-                to="/projectLists"
+                to="/project_lists"
               >
                 Projects List
               </NavLink>
@@ -71,6 +79,21 @@ const Navbar = () => {
               >
                 Archived Lists
               </NavLink>
+              
+              {/* <Button
+                className='text-center pl-2'
+                color='success'
+                onClick={userLogout}
+              >Logout</Button> */}
+              <NavLink 
+                className="navbar-item mx-2 text-danger"
+                activeClassName="is-active" 
+                to='/sign_in'
+                onClick={userLogout}
+                >
+                  Logout
+              </NavLink>
+              
             </div>
 
             ) 
@@ -79,46 +102,23 @@ const Navbar = () => {
 
             : (
             <div className="navbar-start">  
-                {/* <NavLink
+                <NavLink
                   className="navbar-item mx-2"
                   activeClassName="is-active"
                   to="/"
                 >
                   Sign Up
-                </NavLink> */}
-                {/* <NavLink  
+                </NavLink>
+                <NavLink  
                   className="navbar-item mx-2" 
                   activeClassName="is-active" 
                   to="/sign_in"
                 >
                   Sign In
-                </NavLink> */}
-
-                <NavLink  
-                  className="navbar-item mx-2" 
-                  activeClassName="is-active" 
-                  to="/projectLists"
-                >
-                  Projects List
                 </NavLink>
-
-                <NavLink
-                  className="navbar-item mx-2"
-                  activeClassName="is-active"
-                  to="/new_project"
-                >
-                  New Project
-                </NavLink>
-
-                <NavLink
-                  className="navbar-item mx-2"
-                  activeClassName="is-active"
-                  to="/archived_lists"
-                >
-                  Archived Lists
-                </NavLink>
-              </div>
-              )}
+                
+             </div>
+            )}
           </div>
         </div>
       </nav>

@@ -37,6 +37,7 @@ Route::group([
 ], function($router) {
     Route::post('userSignUp', [UserController::class, 'userSignUp']);
     Route::post('userLogin', [UserController::class, 'userLogin']);
+    // Route::post('userLogout', [UserController::class, 'userLogout']);
     Route::get('userDetails', [UserController::class, 'userDetails']);
 });
 

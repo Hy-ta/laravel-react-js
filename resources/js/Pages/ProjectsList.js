@@ -1,26 +1,31 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import Spinner from '../components/Spinner'
+
+// import Spinner from '../components/Spinner';
 
 class ProjectsList extends Component {
   constructor () {
     super()
 
     this.state = {
-      projects: []
+      isLoading: true,
+      projects: [],
     }
   };
 
   componentDidMount () {
     axios.get(`/api/project/index`).then(response => {
-      const countProjects = response.data.slice(0, 4);
+      const countProjects = response.data.slice(0, 12);
       const updatedProjects = countProjects.map(project => {
         return {
             ...project
         };
       })
       this.setState({
-        projects: updatedProjects
+        projects: updatedProjects,
+        isLoading: false
       });
       // console.log(response)
     });
@@ -28,7 +33,6 @@ class ProjectsList extends Component {
 
   render () {
     const projects = this.state.projects.map(project => {
-      
       console.log(this.state.projects); 
       // console.log(this.props);
       return (
@@ -45,23 +49,38 @@ class ProjectsList extends Component {
       )
     });
 
+    const LoadingHandler = () => {
+      let { isLoading } = this.state;
+      if(isLoading){
+        return(
+          <Spinner/>
+        );
+      } else{
+        return(
+          <span></span>
+        );
+      }
+    }
+    
+
     return (
       <div className='container py-4'>
         <div className='row justify-content-center'>
           <div className='col-md-8'>
-            <div className='card'>
-              <div className='card-header'>All projects</div>
+              <div><LoadingHandler/></div>
+              <div className='card'>
+                <div className='card-header'>All projects</div>
 
-              <div className='card-body'>
-                <Link className='btn btn-primary btn-sm mb-3' to='/new_project'>
-                  Create a new project
-                </Link>
+                <div className='card-body'>
+                  <Link className='btn btn-primary btn-sm mb-3' to='/new_project'>
+                    Create a new project
+                  </Link>
 
-                <ul className='list-group list-group-flush'>
-                  {projects}
-                </ul>
+                  <ul className='list-group list-group-flush'>
+                    {projects}
+                  </ul>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

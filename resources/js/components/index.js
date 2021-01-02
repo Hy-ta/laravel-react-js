@@ -5,12 +5,11 @@ import '../../css/app.css';
 import Header from './Header';
 import Navbar from './Navbar';
 import SignIn from '../Auth/SignIn';
-import SignUp from '../Auth/SignUp';
 import ProjectsList from '../Pages/ProjectsList';
 import NewProjects from '../Pages/NewProjects';
 import SingleProject from '../Pages/SingleProject';
 import ArchivedProjects from '../Pages/ArchievedProjects';
-import SignUp2 from '../Auth/SignUp2';
+import SignUp from '../Auth/SignUp';
 
 
 class App extends Component {
@@ -26,7 +25,7 @@ class App extends Component {
                 <Header />
                 <Navbar />
                   <Switch>
-                    <Route exact path='/projectLists' component={ProjectsList} />
+                    <Route exact path='/project_lists' component={ProjectsList} />
                     <Route path='/new_project' component={NewProjects} />
                     <Route path='/archived_lists' component={ArchivedProjects} />
                     <Route path='/:id' component={SingleProject} />  
@@ -40,9 +39,9 @@ class App extends Component {
                   <Header />
                   <Navbar />
                     <Switch>
-                      <Route exact path='/' component={SignUp2} />
+                      <Route exact path='/project_lists' component={ProjectsList} />
                       <Route exact path='/sign_in' component={SignIn} />
-                      <Route exact path='/projectLists' component={ProjectsList} />
+                      <Route exact path='/' component={SignUp} />
                       <Route path='/new_project' component={NewProjects} />
                       <Route path='/archived_lists' component={ArchivedProjects} />
                       <Route path='/:id' component={SingleProject} />  

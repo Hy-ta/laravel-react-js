@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios';
 import './SignUp.css';
-import { Link } from 'react-router-dom';
 
 class SignUp extends Component {
   // userData;
@@ -17,6 +17,7 @@ class SignUp extends Component {
         isLoading: '',
       },
       msg: '',
+      redirect: false,
     };
     this.onChangehandler = this.onChangehandler.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -31,12 +32,15 @@ class SignUp extends Component {
 
   onSubmitHandler(e){
     e.preventDefault();
-    axios.post(`api/user/signUp`, this.state.signUpData)
+    axios.post(`api/user/userSignUp`, this.state.signUpData)
       .then(response => {
         this.setState({ isLoading: false });
+
         if(response.data.status === 200){
+          localStorage.setItem("isLoggedIn", true);
           this.setState({
             msg: response.data.message,
+            redirect: true,
               signUpData: {
               name: '',
               email: '',
@@ -44,6 +48,7 @@ class SignUp extends Component {
               password: '',
               },
           });
+        
           setTimeout(() => {
             this.setState({ msg: ''});
           }, 2000);
@@ -59,9 +64,13 @@ class SignUp extends Component {
 
   render(){
     const isLoading = this.state.isLoading;
+    const login = localStorage.getItem("isLoggedIn");
+    if(this.state.redirect && login){
+      return <Redirect to="project_lists" />;
+    }
+
     return(
       <div>
-        
         <Form className='containers shadow'>
 
           <FormGroup>
@@ -77,7 +86,7 @@ class SignUp extends Component {
 
           <FormGroup>
             <Label for='email'>E-mail: </Label>
-            <Form
+            <Input
               type='email'
               name='email'
               placeholder='Enter Email'
@@ -88,7 +97,7 @@ class SignUp extends Component {
 
           <FormGroup>
             <Label for='phone'>Phone: </Label>
-            <Form
+            <Input
               type='phone'
               name='phone'
               placeholder='Enter Phone'
@@ -99,7 +108,7 @@ class SignUp extends Component {
 
           <FormGroup>
             <Label for='password'>Password: </Label>
-            <Form
+            <Input
               type='password'
               name='password'
               placeholder='Enter Password'

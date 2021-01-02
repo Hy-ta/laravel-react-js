@@ -9,9 +9,16 @@ const SignUp2 = () => {
     const [state, setState] = useState({
       email: "",
       password: "",
+      firstName: "",
+      lastName: "",
       name: "",
       phone: "",
       birthday: "",
+      errors: {
+        email: "",
+        phone: "",
+        password: "",
+      }
     });
     
     const handleSubmit = (event) => {
@@ -29,6 +36,7 @@ const SignUp2 = () => {
           alert('Demo Form is submited');
       }
     }
+    console.log(state);
 
     return (
       <div>
@@ -44,7 +52,7 @@ const SignUp2 = () => {
                   value={state.name}
                   onChange={val=>setState({ ...state, name: val })}
               />
-              {/* <div className="text-danger">{this.state.errors.name}</div> */}
+              <div className="text-danger">{state.email}</div>
           </div>
   
           <div className="form-group">
@@ -56,7 +64,7 @@ const SignUp2 = () => {
                   value={state.email}
                   onChange={val=>setState({ ...state, email: val })}
               />
-              {/* <div className="text-danger">{this.state.errors.email}</div> */}
+              <div className="text-danger">{state.errors.email}</div>
           </div>
 
           <div className="form-group">
@@ -69,7 +77,7 @@ const SignUp2 = () => {
                   onChange={val=>setState({ ...state, phone: val })}
               />
   
-              {/* <div className="text-danger">{this.state.errors.comment}</div> */}
+              <div className="text-danger">{state.errors.phone}</div>
           </div>
   
           <div className="form-group">
@@ -81,8 +89,7 @@ const SignUp2 = () => {
                   value={state.password}
                   onChange={val=>setState({ ...state, password: val })}
               />
-  
-              {/* <div className="text-danger">{this.state.errors.comment}</div> */}
+              <div className="text-danger">{state.errors.password}</div>
           </div>
           <div className="py-3">
            <input type="submit" value="Submit" className="btn btn-success py-2" />

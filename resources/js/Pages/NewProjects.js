@@ -36,7 +36,7 @@ class NewProject extends Component {
               .then(response => {
                     console.log(response);
                     this.setState({ confirm: true});
-                    history.push('/');
+                    history.push('/project_lists');
         })
         .catch(error => {
             console.log(error);

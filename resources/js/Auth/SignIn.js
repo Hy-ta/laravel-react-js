@@ -29,7 +29,7 @@ class SignIn extends Component {
 
     onSignInHandler() {
         this.setState({ isLoading: true });
-
+        const { history } = this.props;
         axios
             .post(`/api/user/userLogin`, {
                 email: this.state.email,
@@ -39,7 +39,7 @@ class SignIn extends Component {
                 this.setState({ isLoading: false });
                 if(response.data.status === 200) {
                     localStorage.setItem("isLoggedIn", true);
-                    localStorage.setItem("userData", JSON.stringify(response.user.data));
+                    localStorage.setItem("userData", JSON.stringify(response.data.data));
                     this.setState({
                         msg: response.data.message,
                         redirect: true,
@@ -69,17 +69,17 @@ class SignIn extends Component {
         }
       })
       .catch(err => {
-          console.log(error);
+          console.log(err);
       });
     };
 
     render(){
         if(this.state.redirect) {
-            return  <Redirect to ="/projectLists" />;
+            return  <Redirect to ="/project_lists" />;
         }
         const login = localStorage.getItem("isLoggedIn");
         if(login) {
-            return<Redirect to="/projectLists" />;
+            return<Redirect to="/project_lists" />;
         }
         const isLoading = this.state.isLoading;
     

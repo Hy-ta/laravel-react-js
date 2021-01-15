@@ -86779,7 +86779,7 @@ var Spinner = function Spinner() {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /Users/hyuga/.composer/vendor/bin/laravel-react-js/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/hyuga/.composer/laravel-react-js/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /Users/hyuga/.composer/vendor/bin/laravel-react-js/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

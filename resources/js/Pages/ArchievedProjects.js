@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import Navbar from '../components/Navbar/Navbar';
 
 
 class ArchivedProjects extends Component {
@@ -15,12 +16,14 @@ class ArchivedProjects extends Component {
             this.setState({ 
                 archivedProjects: response.data
             });
-            console.log('return');
-            console.log(response.data);
+            // console.log('return');
+            // console.log(response.data);
         });
     };
 
-    render(){
+
+
+    render(){    
         const archivedProjects = this.state.archivedProjects.map(project => {
             return(
                 <div className='card' key={project.id}>
@@ -38,15 +41,21 @@ class ArchivedProjects extends Component {
                 </div>
             )
         })
+        
         return(
-            <div className='container py-4'>
+            <>
+                <Navbar />
+                <div className='container py-4'>
+                    <div className="py-3">
+                        <h2>Total Archived: {this.state.archivedProjects.length}</h2>
+                    </div>
                 <div className='row justify-content-center'>
                     <div className='col-md-8'>
                          {archivedProjects}
                     </div>
                 </div>
             </div>
-          
+          </>
         )
     }
 }

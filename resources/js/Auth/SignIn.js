@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 class SignIn extends Component {
     constructor(){
@@ -74,12 +74,9 @@ class SignIn extends Component {
     };
 
     render(){
-        if(this.state.redirect) {
-            return  <Redirect to ="/project_lists" />;
-        }
         const login = localStorage.getItem("isLoggedIn");
         if(login) {
-            return<Redirect to="/project_lists" />;
+            return <Redirect to="/project_lists" />;
         }
         const isLoading = this.state.isLoading;
     
@@ -113,6 +110,7 @@ class SignIn extends Component {
                         <span className="text-danger">{this.state.errMsgPwd}</span>
                         </FormGroup>
                         <p className="text-danger">{this.state.errMsg}</p>
+                        
                         <Button
                         className="text-center mb-4"
                         color="success"
@@ -129,6 +127,16 @@ class SignIn extends Component {
                             <span></span>
                         )}
                         </Button>
+
+                        <Link to="/">
+                            <Button 
+                                className="text-center mb-4 ml-4"
+                                color="primary"
+                            >
+                                Sign Up ?
+                            </Button>
+                        </Link>
+
                     </Form>
                 </div>
                 )

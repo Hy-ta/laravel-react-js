@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import Navbar from '../components/Navbar/Navbar';
 
 class NewProject extends Component {
     constructor (props) {
@@ -34,7 +35,6 @@ class NewProject extends Component {
     
         axios.post(`api/project/store`, project)
               .then(response => {
-                    console.log(response);
                     this.setState({ confirm: true});
                     history.push('/project_lists');
         })
@@ -67,6 +67,8 @@ class NewProject extends Component {
 
     render (){
         return (
+            <>
+            <Navbar />
             <div className='container py-4'>
                 <div className='row justify-content-center'>
                     <div className='col-md-6'>
@@ -118,6 +120,7 @@ class NewProject extends Component {
                     </div>
                 </div>
             </div>
+            </>
         )
     }
 }

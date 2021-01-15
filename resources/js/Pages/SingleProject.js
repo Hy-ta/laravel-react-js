@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import Navbar from '../components/Navbar/Navbar';
+
 
 class SingleProject extends Component {
     constructor (props) {
@@ -10,7 +12,6 @@ class SingleProject extends Component {
         tasks: [],
         title: "",
         errors: [],
-
       }
   
       this.handleFieldChange = this.handleFieldChange.bind(this)
@@ -22,6 +23,7 @@ class SingleProject extends Component {
   
     componentDidMount () {
       const projectId = this.props.match.params.id
+      // console.log(this.props)
       if(projectId){
         axios.get(`/api/project/${projectId}`).then(response => {
           this.setState({
@@ -40,10 +42,10 @@ class SingleProject extends Component {
   
     handleMarkProjectAsCompleted () {
       const { history } = this.props
-  
-      axios.put(`/api/project/${this.state.project.id}`)
+      axios.put(`/api/project/${this.state.project.id}?id=${this.state.project.id ? this.state.project.id : ''}`)
         .then( 
-          history.push('/projectLists')
+          this.state.project.is_completed = true,
+          history.push('/project_lists')
         );
     }
   
@@ -89,15 +91,27 @@ class SingleProject extends Component {
         )
       }
     }
+
+    handleMarkTaskAsCompleted (taskId) {
+      axios.put(`/api/task/${taskId}?id=${taskId}`).then(response => {
+        this.setState(prevState => ({
+          tasks: prevState.tasks.filter(task => {
+            return task.id !== taskId
+          })
+        }))
+      })
+    }
   
     render () {
-
+      // console.log(this.state.tasks.id)
+      console.log(this.state)
       const { tasks, project } = this.state;
 
       // let loading = <p>Loading ... </p>
      
       return (
-        
+        <>
+        <Navbar/>
         <div className='container py-4'>
           <div className='row justify-content-center'>
             <div className='col-md-8'>
@@ -137,31 +151,35 @@ class SingleProject extends Component {
                   </form>
   
                   <ul className='list-group mt-3'>
-                    {tasks.map(task => (
-                      <li
-                        className='list-group-item d-flex justify-content-between align-items-center'
-                        key={task.id}
-                      >
-                        {task.title}
-  
-                        <button
-                          className='btn btn-primary btn-sm'
-                          onClick={this.handleMarkProjectAsCompleted.bind(
-                            this,
-                            task.id
-                          )}
+                      { tasks ?
+                        tasks.map(task => (
+                        <li
+                          className='list-group-item d-flex justify-content-between align-items-center'
+                          key={task.id}
                         >
-                          Mark as completed
-                        </button>
-                      </li>
-                    ))}
-  
+                          {task.title}
+    
+                          <button
+                            className='btn btn-primary btn-sm'
+                            onClick={this.handleMarkTaskAsCompleted.bind(this, task.id)}
+                          >
+                            Mark as completed
+                          </button>
+                        </li>
+                      ))
+                              :
+
+                          <li className='list-group-item d-flex justify-content-between align-items-center'>
+                      
+                        </li>
+                    }
                   </ul>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        </>
       )
     }
   }

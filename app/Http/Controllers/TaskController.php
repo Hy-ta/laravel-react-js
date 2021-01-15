@@ -21,10 +21,11 @@ class TaskController extends Controller
         return $task->toJson();
       }
 
-      public function markAsCompleted(Task $task)
+      public function markAsCompleted(Request $request)
       {
-        $task->is_completed = true;
-        $task->update();
+        $id = $request->query('id');
+
+        $task = Task::where('id', $id)->update(array('is_completed' => true));
 
         return response()->json('Task updated!');
       }

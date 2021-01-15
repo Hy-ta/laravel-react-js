@@ -1,7 +1,9 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import Spinner from '../components/Spinner'
+import SearchTable from '../components/ProjectSearch/SearchTable'
+import Navbar from '../components/Navbar/Navbar';
+import Spinner from '../utils/Spinner'
 
 // import Spinner from '../components/Spinner';
 
@@ -17,7 +19,7 @@ class ProjectsList extends Component {
 
   componentDidMount () {
     axios.get(`/api/project/index`).then(response => {
-      const countProjects = response.data.slice(0, 12);
+      const countProjects = response.data;
       const updatedProjects = countProjects.map(project => {
         return {
             ...project
@@ -33,15 +35,13 @@ class ProjectsList extends Component {
 
   render () {
     const projects = this.state.projects.map(project => {
-      console.log(this.state.projects); 
-      // console.log(this.props);
       return (
         <Link
           className='list-group-item list-group-item-action d-flex justify-content-between align-items-center'
           to={`/${project.id}`}
           key={project.id}
         >
-          {project.name}
+          {project.name.slice(0,19)}
           <span className='badge badge-primary badge-pill'>
               {project.tasks_count}
           </span>
@@ -61,13 +61,24 @@ class ProjectsList extends Component {
         );
       }
     }
-    
+
+    let count = 0;
+    for(let i = 0; i < this.state.projects.length; i++){
+      if(this.state.projects !== 0) {
+        count++;
+      }
+    }
 
     return (
+      <>
+      <Navbar />
       <div className='container py-4'>
         <div className='row justify-content-center'>
           <div className='col-md-8'>
               <div><LoadingHandler/></div>
+              <div className="py-2">
+                <h2>Unaccomplished Tasks: {count}</h2>
+              </div>
               <div className='card'>
                 <div className='card-header'>All projects</div>
 
@@ -84,6 +95,7 @@ class ProjectsList extends Component {
           </div>
         </div>
       </div>
+      </>
     )
   }
 }

@@ -65,7 +65,9 @@ class SignUp extends Component {
   render(){
     const isLoading = this.state.isLoading;
     const login = localStorage.getItem("isLoggedIn");
-    if(this.state.redirect && login){
+    if(this.state.redirect){
+      return <Redirect to="project_lists" />;
+    } if (login){
       return <Redirect to="project_lists" />;
     }
 
@@ -85,23 +87,23 @@ class SignUp extends Component {
           </FormGroup>
 
           <FormGroup>
-            <Label for='email'>E-mail: </Label>
-            <Input
-              type='email'
-              name='email'
-              placeholder='Enter Email'
-              value={this.state.signUpData.email}
-              onChange={this.onChangehandler}
-            />
-          </FormGroup>
-
-          <FormGroup>
             <Label for='phone'>Phone: </Label>
             <Input
               type='phone'
               name='phone'
               placeholder='Enter Phone'
               value={this.state.signUpData.phone}
+              onChange={this.onChangehandler}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <Label for='email'>E-mail: </Label>
+            <Input
+              type='email'
+              name='email'
+              placeholder='Enter Email'
+              value={this.state.signUpData.email}
               onChange={this.onChangehandler}
             />
           </FormGroup>
@@ -135,7 +137,14 @@ class SignUp extends Component {
               <span></span>
             )}
           </Button>
-          <Link to='/sign_in' className='text-white-ml-5'>Sign In ?</Link>
+          <Link to="/sign_in">
+              <Button 
+                  className="text-center mb-4 ml-4"
+                  color="primary"
+              >
+                  Sign In ?
+              </Button>
+          </Link>
         </Form>
       </div>
       );

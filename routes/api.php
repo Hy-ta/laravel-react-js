@@ -23,6 +23,7 @@ Route::group([
     'namespace' => 'Project',
 ], function($router) {
     Route::get('index', [ProjectController::class, 'index']);
+    Route::get('getSearch', [ProjectController::class, 'getSearch']);
     Route::post('store', [ProjectController::class, 'store']);
     Route::get('fetchProjects', [ProjectController::class, 'fetchProjects']);
     Route::get('{id}', [ProjectController::class, 'show']);
@@ -37,7 +38,7 @@ Route::group([
 ], function($router) {
     Route::post('userSignUp', [UserController::class, 'userSignUp']);
     Route::post('userLogin', [UserController::class, 'userLogin']);
-    // Route::post('userLogout', [UserController::class, 'userLogout']);
+    // Route::post('userLogout', [UserController::class, 'userLogout']);    
     Route::get('userDetails', [UserController::class, 'userDetails']);
 });
 

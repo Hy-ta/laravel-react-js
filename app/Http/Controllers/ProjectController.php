@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 // http request ... Request $request
 // based on params id ... give id param as $id
@@ -49,15 +51,12 @@ class ProjectController extends Controller
         }
       }
 
-      public function markAsCompleted(Project $project)
+      public function markAsCompleted(Request $request)
       {
-  
-        $project->is_completed = true;
-        $project->update();
+        $id = $request->query('id');
+        $project = Project::where('id', $id)->update(array('is_completed' => true));
 
-        if(!is_null($project)){
-          return response()->json('Project updated!');
-        }
+        return response()->json('Project updated!');
       }
 
       public function fetchProjects()
@@ -72,7 +71,29 @@ class ProjectController extends Controller
         }
       }
 
-      
+      public function getSearch(Request $request)
+      {
+            $name = $request->query('name');
+        
+            
+            $projects = project::where('name', 'LIKE', '%'. $name .'%')  
+                                  ->orderBy('created_at', 'DESC')->limit(5)->get();
+              
+            return $projects->toJson();
+              // if(!isset($projects)){
+              //     return $projects->toJson();
+              // }
+            
+              // $projectsData = $projects->map(function($project){
+              //                 return [
+              //                   'name' => $project['name'],
+              //                   'description' => $project['description'],
+              //                   'is_completed' => $project['is_completed'],
+              //                 ];
+              // });
+            
+                 
+      }
   }
 
 
